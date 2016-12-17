@@ -52,6 +52,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(2);
+	// import React from 'react';
+	// import { render } from 'react-dom';
 	var ReactDOM = __webpack_require__(33);
 
 	// var FriendsContainer = React.createClass({
@@ -83,20 +85,32 @@
 	//   }
 	// });
 
-	var FormComp = React.createClass({
-	  displayName: 'FormComp',
+	class FormComp extends React.Component {
+	  constructor() {
+	    super();
+	    this.state = {
+	      zipCode: '',
+	      representatives: []
+	    };
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+	  }
 
-	  handleSubmit: function (e) {
+	  handleSubmit(e) {
 	    e.preventDefault();
 	    $.get(`https://congress.api.sunlightfoundation.com/legislators/locate?zip=${ this.state.zipCode }`, function (data) {
-	      debugger;
-	      console.log(data);
-	    });
-	  },
-	  handleChange: function (e) {
+	      this.setState({
+	        representatives: data.results
+	      });
+	    }.bind(this));
+	  }
+
+	  handleChange(e) {
 	    this.setState({ zipCode: e.target.value });
-	  },
-	  render: function () {
+	    console.log(this.state.zipCode);
+	  }
+
+	  render() {
 
 	    return React.createElement(
 	      'div',
@@ -115,11 +129,36 @@
 	          { type: 'submit' },
 	          'Submit'
 	        )
+	      ),
+	      this.state.representatives.map(rep => React.createElement(Representative, { first_name: rep.first_name, last_name: rep.last_name, office: rep.office }))
+	    );
+	  }
+	};
+
+	class Representative extends React.Component {
+
+	  render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Name:',
+	        this.props.first_name,
+	        ' ',
+	        this.props.last_name
+	      ),
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Address:',
+	        this.props.office,
+	        ', Washington, DC'
 	      )
 	    );
 	  }
-
-	});
+	}
 
 	ReactDOM.render(React.createElement(FormComp, null), document.getElementById('app'));
 

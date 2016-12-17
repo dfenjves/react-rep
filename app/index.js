@@ -1,4 +1,6 @@
 var React = require('react')
+// import React from 'react';
+// import { render } from 'react-dom';
 var ReactDOM = require('react-dom')
 
 // var FriendsContainer = React.createClass({
@@ -30,18 +32,32 @@ var ReactDOM = require('react-dom')
 //   }
 // });
 
-var FormComp = React.createClass ({
-  handleSubmit: function(e) {
+class FormComp extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      zipCode: '',
+      representatives: []
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit(e) {
     e.preventDefault();
     $.get(`https://congress.api.sunlightfoundation.com/legislators/locate?zip=${this.state.zipCode}`, function(data){
-      debugger;
-      console.log(data);
-    })
-  },
-  handleChange: function(e) {
+      this.setState({
+        representatives:data.results
+      });
+    }.bind(this));
+  }
+
+  handleChange(e) {
     this.setState({zipCode:e.target.value});
-  },
-  render: function() {
+    console.log(this.state.zipCode);
+  }
+
+  render() {
 
     return (
       <div>
@@ -50,11 +66,28 @@ var FormComp = React.createClass ({
           <input type='text' onChange={this.handleChange}></input>
           <button type="submit">Submit</button>
         </form>
-      </div>
+        {
+          this.state.representatives.map((rep) =>
+            <Representative first_name={rep.first_name} last_name={rep.last_name} office={rep.office} />
+          )
+        }
 
+      </div>
     )
   }
+};
 
-});
+class Representative extends React.Component {
+
+  render(){
+    return(
+      <div>
+        <h2>Name:{this.props.first_name} {this.props.last_name}</h2>
+        <h2>Address:{this.props.office}, Washington, DC</h2>
+      </div>
+    )
+  }
+}
+
 
 ReactDOM.render(<FormComp />, document.getElementById('app'));
