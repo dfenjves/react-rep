@@ -52,115 +52,39 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(2);
-	// import React from 'react';
-	// import { render } from 'react-dom';
 	var ReactDOM = __webpack_require__(33);
+	var FormContainer = __webpack_require__(184);
+	var RepresentativesContainer = __webpack_require__(186);
 
-	// var FriendsContainer = React.createClass({
-	//   render: function(){
-	//     var name = 'Tyler McGinnis'
-	//     var friends = ['Ean Platter', 'Murphy Randall', 'Merrick Christensen']
-	//     return (
-	//       <div>
-	//         <h3> Name: {name} </h3>
-	//         <ShowList names={friends} />
-	//       </div>
-	//     )
-	//   }
-	// });
-	//
-	// var ShowList = React.createClass({
-	//   render: function(){
-	//     var listItems = this.props.names.map(function(friend){
-	//       return <li> {friend} </li>;
-	//     });
-	//     return (
-	//       <div>
-	//         <h3> Friends </h3>
-	//         <ul>
-	//           {listItems}
-	//         </ul>
-	//       </div>
-	//     )
-	//   }
-	// });
-
-	class FormComp extends React.Component {
+	class App extends React.Component {
 	  constructor() {
 	    super();
 	    this.state = {
-	      zipCode: '',
 	      representatives: []
 	    };
-	    this.handleChange = this.handleChange.bind(this);
-	    this.handleSubmit = this.handleSubmit.bind(this);
+	    this.getRepresentatives = this.getRepresentatives.bind(this);
 	  }
 
-	  handleSubmit(e) {
-	    e.preventDefault();
-	    $.get(`https://congress.api.sunlightfoundation.com/legislators/locate?zip=${ this.state.zipCode }`, function (data) {
+	  getRepresentatives(zipCode) {
+	    $.get(`https://congress.api.sunlightfoundation.com/legislators/locate?zip=${ zipCode }`, function (data) {
 	      this.setState({
 	        representatives: data.results
 	      });
 	    }.bind(this));
 	  }
 
-	  handleChange(e) {
-	    this.setState({ zipCode: e.target.value });
-	    console.log(this.state.zipCode);
-	  }
-
-	  render() {
-
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'h1',
-	        null,
-	        'Zip:'
-	      ),
-	      React.createElement(
-	        'form',
-	        { onSubmit: this.handleSubmit },
-	        React.createElement('input', { type: 'text', onChange: this.handleChange }),
-	        React.createElement(
-	          'button',
-	          { type: 'submit' },
-	          'Submit'
-	        )
-	      ),
-	      this.state.representatives.map(rep => React.createElement(Representative, { first_name: rep.first_name, last_name: rep.last_name, office: rep.office }))
-	    );
-	  }
-	};
-
-	class Representative extends React.Component {
-
 	  render() {
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(
-	        'h2',
-	        null,
-	        'Name:',
-	        this.props.first_name,
-	        ' ',
-	        this.props.last_name
-	      ),
-	      React.createElement(
-	        'h2',
-	        null,
-	        'Address:',
-	        this.props.office,
-	        ', Washington, DC'
-	      )
+	      React.createElement(FormContainer, { getRepresentatives: this.getRepresentatives }),
+	      React.createElement(RepresentativesContainer, { representatives: this.state.representatives })
 	    );
 	  }
+
 	}
 
-	ReactDOM.render(React.createElement(FormComp, null), document.getElementById('app'));
+	ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
 
 /***/ },
 /* 2 */
@@ -21852,6 +21776,134 @@
 
 	module.exports = ReactDOMInvalidARIAHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(33);
+	var Form = __webpack_require__(185);
+
+	class FormContainer extends React.Component {
+	  constructor() {
+	    super();
+	    this.handleChange = this.handleChange.bind(this);
+	    this.handleSubmit = this.handleSubmit.bind(this);
+	  }
+
+	  handleSubmit(e) {
+	    e.preventDefault();
+	    this.props.getRepresentatives(this.state.zipCode);
+	  }
+
+	  handleChange(e) {
+	    this.setState({ zipCode: e.target.value });
+	  }
+
+	  render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(Form, { handleSubmit: this.handleSubmit, handleChange: this.handleChange })
+	    )
+	    /* {
+	      this.state.representatives.map((rep) =>
+	        <Representative first_name={rep.first_name} last_name={rep.last_name} office={rep.office} />
+	      )
+	    } */
+	    ;
+	  }
+	};
+
+	module.exports = FormContainer;
+
+/***/ },
+/* 185 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(33);
+
+	class Form extends React.Component {
+	  render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h1',
+	        null,
+	        'Zip:'
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.props.handleSubmit },
+	        React.createElement('input', { type: 'text', onChange: this.props.handleChange }),
+	        React.createElement(
+	          'button',
+	          { type: 'submit' },
+	          'Submit'
+	        )
+	      )
+	    );
+	  }
+	}
+
+	module.exports = Form;
+
+/***/ },
+/* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(33);
+	var Representative = __webpack_require__(187);
+
+	class RepresentativesContainer extends React.Component {
+	  render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      this.props.representatives.map(rep => React.createElement(Representative, { first_name: rep.first_name, last_name: rep.last_name, office: rep.office }))
+	    );
+	  }
+	}
+
+	module.exports = RepresentativesContainer;
+
+/***/ },
+/* 187 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(33);
+
+	class Representative extends React.Component {
+
+	  render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Name:',
+	        this.props.first_name,
+	        ' ',
+	        this.props.last_name
+	      ),
+	      React.createElement(
+	        'h2',
+	        null,
+	        'Address:',
+	        this.props.office,
+	        ', Washington, DC'
+	      )
+	    );
+	  }
+	}
+
+	module.exports = Representative;
 
 /***/ }
 /******/ ]);
