@@ -27,7 +27,6 @@ class App extends React.Component {
       <div>
         <FormContainer getRepresentatives={this.getRepresentatives}/>
         <RepresentativesContainer representatives={this.state.representatives} />
-        <Materialize.Button node='a' waves='light'><Materialize.Icon right>file_cloud</Materialize.Icon>button</Materialize.Button>
       </div>
     )
   }

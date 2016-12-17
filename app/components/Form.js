@@ -1,6 +1,7 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
-
+var Materialize = require('react-materialize');
+var Button = Materialize.Button;
 
 class Form extends React.Component {
   render() {
@@ -9,7 +10,7 @@ class Form extends React.Component {
         <h1>Zip:</h1>
         <form onSubmit={this.props.handleSubmit}>
           <input type='text' onChange={this.props.handleChange}></input>
-          <button type="submit">Submit</button>
+          <Button type="submit">Submit</Button>
         </form>
 
       </div>

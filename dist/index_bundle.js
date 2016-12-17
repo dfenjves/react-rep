@@ -79,17 +79,7 @@
 	      'div',
 	      null,
 	      React.createElement(FormContainer, { getRepresentatives: this.getRepresentatives }),
-	      React.createElement(RepresentativesContainer, { representatives: this.state.representatives }),
-	      React.createElement(
-	        Materialize.Button,
-	        { node: 'a', waves: 'light' },
-	        React.createElement(
-	          Materialize.Icon,
-	          { right: true },
-	          'file_cloud'
-	        ),
-	        'button'
-	      )
+	      React.createElement(RepresentativesContainer, { representatives: this.state.representatives })
 	    );
 	  }
 
@@ -21835,6 +21825,8 @@
 
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(33);
+	var Materialize = __webpack_require__(188);
+	var Button = Materialize.Button;
 
 	class Form extends React.Component {
 	  render() {
@@ -21851,7 +21843,7 @@
 	        { onSubmit: this.props.handleSubmit },
 	        React.createElement('input', { type: 'text', onChange: this.props.handleChange }),
 	        React.createElement(
-	          'button',
+	          Button,
 	          { type: 'submit' },
 	          'Submit'
 	        )
@@ -21888,35 +21880,49 @@
 
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(33);
+	var Materialize = __webpack_require__(188);
+	var Modal = Materialize.Modal;
+	var Button = Materialize.Button;
 
 	class Representative extends React.Component {
 	  constructor() {
 	    super();
 	    this.showAddress = this.showAddress.bind(this);
+	    this.state = {
+	      showModal: false
+	    };
 	  }
 
 	  showAddress() {
-	    console.log(`you clicked ${ this.props.first_name }`);
+	    console.log("show");
+	    this.setState({
+	      showModal: true
+	    });
 	  }
 
 	  render() {
 	    return React.createElement(
 	      'div',
-	      { onClick: this.showAddress },
+	      null,
 	      React.createElement(
-	        'h2',
-	        { onClick: this.showAddress },
-	        'Name:',
-	        this.props.first_name,
-	        ' ',
-	        this.props.last_name
-	      ),
-	      React.createElement(
-	        'h2',
-	        null,
-	        'Address:',
-	        this.props.office,
-	        ', Washington, DC'
+	        Modal,
+	        {
+	          header: `${ this.props.first_name } ${ this.props.last_name }`,
+	          trigger: React.createElement(
+	            'h2',
+	            null,
+	            ' Name:',
+	            this.props.first_name,
+	            ' ',
+	            this.props.last_name
+	          ) },
+	        React.createElement(
+	          'p',
+	          null,
+	          'Address:',
+	          this.props.office,
+	          ', Washington, DC'
+	        )
 	      )
 	    );
 	  }
