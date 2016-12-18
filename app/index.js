@@ -1,4 +1,5 @@
-var React = require('react')
+import React from 'react'
+//var React = require('react')
 var ReactDOM = require('react-dom')
 var FormContainer = require('./containers/FormContainer')
 var RepresentativesContainer = require('./containers/RepresentativesContainer')
