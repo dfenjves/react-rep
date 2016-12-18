@@ -6,20 +6,6 @@ var Button = Materialize.Button;
 
 
 class Representative extends React.Component {
-  constructor(){
-    super();
-    this.showAddress = this.showAddress.bind(this)
-    this.state = {
-      showModal:false
-    }
-  }
-
-  showAddress(){
-      console.log("show")
-      this.setState({
-        showModal:true
-      })
-  }
 
   render(){
     return(
