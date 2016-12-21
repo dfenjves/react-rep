@@ -1,10 +1,11 @@
 import React from 'react'
 //var React = require('react')
-var ReactDOM = require('react-dom')
-var FormContainer = require('./containers/FormContainer')
-var RepresentativesContainer = require('./containers/RepresentativesContainer')
+import ReactDOM from 'react-dom'
+import FormContainer from './containers/FormContainer'
+import RepresentativesContainer from './containers/RepresentativesContainer'
+import Nav from './components/Nav'
 var Materialize = require('react-materialize');
-
+var Navbar = Materialize.Navbar;
 
 class App extends React.Component {
   constructor(){
@@ -17,6 +18,7 @@ class App extends React.Component {
 
   getRepresentatives(zipCode){
     $.get(`https://congress.api.sunlightfoundation.com/legislators/locate?zip=${zipCode}`, function(data){
+      // debugger;
       this.setState({
         representatives:data.results,
       });
@@ -26,8 +28,11 @@ class App extends React.Component {
   render(){
     return(
       <div>
-        <FormContainer getRepresentatives={this.getRepresentatives}/>
-        <RepresentativesContainer representatives={this.state.representatives} />
+        <Nav site_name="RepFinder" />
+        <div className="container">
+            <FormContainer getRepresentatives={this.getRepresentatives}/>
+            <RepresentativesContainer representatives={this.state.representatives} />
+        </div>
       </div>
     )
   }
