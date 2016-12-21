@@ -15,7 +15,7 @@ class Representative extends React.Component {
           trigger={
             <h2> Name:{this.props.first_name} {this.props.last_name}</h2>
           }>
-          <p>Address:{this.props.office}, Washington, DC</p>
+          <p>Address:{this.props.office}, Washington, DC 20002</p>
           </Modal>
       </div>
     )
