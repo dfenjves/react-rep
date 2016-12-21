@@ -18,7 +18,7 @@ class App extends React.Component {
 
   getRepresentatives(zipCode){
     $.get(`https://congress.api.sunlightfoundation.com/legislators/locate?zip=${zipCode}`, function(data){
-      // debugger;
+      debugger;
       this.setState({
         representatives:data.results,
       });

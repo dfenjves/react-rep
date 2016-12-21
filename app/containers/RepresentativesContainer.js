@@ -14,8 +14,8 @@ class RepresentativesContainer extends React.Component {
         <Row>
         {
           this.props.representatives.map((rep) =>
-            <Col m={6} s={12}>
-              <Representative first_name={rep.first_name} last_name={rep.last_name} office={rep.office} bioguide_id={rep.bioguide_id}/>
+            <Col m={3} s={12}>
+              <Representative rep={rep}/>
             </Col>
           )
         }
