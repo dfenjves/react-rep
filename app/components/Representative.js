@@ -4,6 +4,7 @@ var Materialize = require('react-materialize');
 var Modal = Materialize.Modal;
 var Button = Materialize.Button;
 var Card = Materialize.Card;
+var RepresentativeCard = require('../components/Representative-Card.js')
 
 class Representative extends React.Component {
 
@@ -20,13 +21,11 @@ class Representative extends React.Component {
           trigger={
             <div>
             <Card className='blue-grey darken-1' textClassName='white-text' title={this.props.rep.chamber}>
-              <img src={this.createImageLink()} width="80%"/>
-              <p>{this.props.rep.first_name} {this.props.rep.last_name} ({this.props.rep.party})</p>
+                  <img src={this.createImageLink()} width="80%" />
             </Card>
             </div>
           }>
-          <p>{this.props.rep.office}</p>
-          <p>Washington, DC 20002</p>
+            <RepresentativeCard rep={this.props.rep} />
           </Modal>
       </div>
     )
